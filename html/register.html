@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+	<title>Registro de usuario</title>
+    <link rel="stylesheet" type="text/css" href="../css/register.css">
+</head>
+    <body>
+        <header>
+            <h1>REGISTRO DE USUARIO</h1>
+        </header>
+        <main class="main-container">
+            <section id="val-box" hidden>
+                <h2 id="val-msg">Mensaje de validación</h2>
+                <ul id="val-list"></ul>
+            </section>
+            <form name="myForm" method="post" enctype="multipart/form-data">
+                <label for="username">Nombre</label>
+                <input type="text" name="username" id="username" placeholder="3 a 100 caracteres, solo letras y espacios" required><br>
+
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" placeholder="Ej: nombre@ejemplo.com" required><br>
+
+                <label for="phone">N° Telefono</label>
+                <input type="text" name="phone" id="phone" placeholder="Ej: 912345678" required><br>
+
+                <label for="select-region">Región</label>
+                <select name="select-region" id="select-region" required>
+                    <option value="">Seleccione una región</option>
+                </select><br>
+
+                <label for="select-comuna">Comuna</label>
+                <select name="select-comuna" id="select-comuna" required>
+                    <option value="">Seleccione una comuna</option>
+                </select><br>
+
+                <label for="pass">Contraseña (minimo 8 caracteres)</label>
+                <input type="password" name="pass" id="pass" required><br>
+
+                <label for="val-pass">Repita su contraseña</label>
+                <input type="password" name="val-pass" id="val-pass" required><br>
+                
+                <button id="submit-btn" type="button">Enviar</button>
+            </form>
+        </main>
+        <script src="../js/select.js"></script>
+        <script src="../js/register.js"></script>
+    </body>
+</html>
