@@ -46,6 +46,8 @@ MySQL.
 Las dependencias indicadas en requirements.txt.
 
 Una base de datos configurada con las credenciales indicadas en el enunciado de la tarea.
+
+Crear /static/uploads si es que no esta definida.
 ## Ejecución
 
 Para ejecutar el prototipo, usted debe
@@ -64,7 +66,7 @@ pip install -r requirements.txt
 - Iniciar el esquema y las tablas utilizando tarea2.sql
 - Poblar la tabla de las aves utilizando aves.sql
 - Poblar las tablas de región y comunas utilizando region-comuna.sql
-(Estos tres pasos los realicé con las extensiones de Database)
+(Estos tres pasos los realicé con la extension de Database Client de MySQL)
 - Iniciar la página web con:
 ```
 python app.py

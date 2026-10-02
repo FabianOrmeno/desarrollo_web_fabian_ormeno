@@ -179,6 +179,7 @@ def create_sighting(volunteer_id, bird_type, species_id, comuna_id, location, da
         new_sighting = Avistamiento(voluntario_id = volunteer_id, ave_id = species_id, fecha_hora = date, lugar = location, descripcion = bird_type, comuna_id = comuna_id)
         session.add(new_sighting)
         session.flush()
+        os.makedirs(UPLOAD_FOLDER, exist_ok=True)
         for file in files:
             _filename = hashlib.sha256(
                 secure_filename(file.filename) # nombre del archivo

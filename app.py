@@ -8,6 +8,7 @@ from utils import validation as v
 
 UPLOAD_FOLDER = '/static/uploads'
 
+
 app = Flask(__name__)
 
 
