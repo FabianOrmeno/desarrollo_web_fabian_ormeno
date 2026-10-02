@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block title %} Registro de avistamientos {% endblock %}
+{% block css %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static', filename='css/form.css')}}"
+/>
+{% endblock %}
+{% block content %}
+<header>
+    <h1>REGISTRAR UN AVISTAMIENTO</h1>
+</header>
+<main class="main-container">
+    <section id="post-form">
+        {% if error %}
+            <section id="val-box" class="validation-error">
+                <h2 id="val-msg">
+                    {{error}}</h2>
+                <ul id="val-list"></ul>
+            </section>
+        {% else %}
+            <section id="val-box" hidden>
+                <h2 id="val-msg">
+                    Mensaje de validación</h2>
+                <ul id="val-list"></ul>
+            </section>
+        {% endif %}
+        <h2>Los campos obligatorios son marcados por un <strong>*</strong></h2>
+        <form name="myForm" method="post" enctype="multipart/form-data" action="{{ url_for('post_sighting') }}">
+            <label for="type" class="required">Tipo de ave</label>
+            <input type="text" name="type" id="type" placeholder="3 a 100 caracteres, solo letras y espacios" required><br>
+
+            <label for="select-species" class="required">Nombre de la especie</label>
+            <select name="species_id" id="select-species" required>
+            <option value="">Seleccione una especie</option>
+                {% for especie in especies %}
+                    <option value="{{ especie.id }}">
+                        {{ especie.nombre }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <label for="select-region" class="required">Región</label>
+            <select name="region_id" id="select-region" required>
+            <option value="">Seleccione una región</option>
+                {% for region in regiones %}
+                    <option value="{{ region.id }}">
+                        {{ region.nombre }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <label for="select-comuna" class="required">Comuna</label>
+            <select name="comuna_id" id="select-comuna" required>
+                <option value="">Seleccione una comuna</option>
+            </select>
+
+            <label for="location" class="required">Lugar</label>
+            <input type="text" name="location" id="location" placeholder="3 a 100 caracteres. Ej: Parque O'Higgins" required><br>
+
+            <label for="datetime" class="required">Fecha y hora de avistamiento</label>
+            <input type="datetime-local" name="datetime" id="datetime" required><br>
+
+            <label for="files" class="required">Adjuntos</label>
+            <input type="file" name="files" id="files" accept="image/*,video/*" multiple required><br>
+            
+            <button id="submit-btn" class="submit-btn" type="button">Enviar</button>
+        </form>
+    </section>
+</main>
+{% endblock %}
+{% block javascript %}
+<script src="{{ url_for('static', filename='js/select.js') }}"></script>
+<script src="{{ url_for('static', filename='js/sighting.js') }}"></script>
+{% endblock %}
+

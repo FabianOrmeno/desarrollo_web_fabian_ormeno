@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %} Avistamientos de aves {% endblock %}
+{% block css %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static', filename='css/form.css')}}"
+/>
+{% endblock %}
+{% block content %}
+<header>
+    <h1>AVISTAMIENTOS DE AVES</h1>
+</header>
+{% if sighted %}
+    <section class="validation-success">
+            <h2>¡Gracias por registrar tu avistamiento!</h2>
+            <p class = "descripcion">
+                Tu avistamiento de un/a {{sighted}} a sido alamcenado correctamente.
+            </p>
+    </section>
+{% endif %}
+<main class="main-container">
+    <section id="val-box" hidden>
+        <h2 id="val-msg">Mensaje de validación</h2>
+        <ul id="val-list"></ul>
+    </section>
+    <p class="descripcion">
+        {%if session["user"] %}
+        Bienvenido de vuelta {{session["user"]}},
+        {% else %}
+        Bienvenido a la página de avistamientos de aves,
+        {% endif %}
+        acá podrás revisar diferentes avistamientos de aves realizados por voluntarios alrededor de todo Chile, y si
+        te registras podrás registrar tus propios avistamientos y apoyar al proyecto.
+    </p>
+    <form method="POST" action="{{ url_for('menu') }}">
+        <button class="submit-btn" type="submit" name="accion" value="voluntario">
+            Registrarse como Voluntario
+        </button>
+        <button class="submit-btn" type="submit" name="accion" value="avistamiento">
+            Registrar un avistamiento
+        </button>
+        <button class="submit-btn" type="submit" name="accion" value="ver_avistamientos">
+            Ver avistamientos
+        </button>
+    </form>
+    {% if info %}
+        <section id="latest">
+            <h2 id="latest-title">Ultimos avistamientos</h2>
+                {% for sighting in info %}
+                    <p>
+                        {{ sighting["voluntario"] }} a avistado un/a {{ sighting["ave"]}} en {{ sighting["region"] }},
+                        {{ sighting["comuna"] }} el {{ sighting["fecha"] }}.
+                    </p>
+                {% endfor %}
+        </section>
+    {% endif %}
+</main>
+{% endblock %}
+{% block javascript %}
+{% endblock %}
+

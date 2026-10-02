@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %} Voluntario registrado {% endblock %}
+{% block css %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static', filename='css/form.css')}}"
+/>
+{% endblock %}
+{% block content %}
+<header>
+    <h1>VOLUNTARIO REGISTRADO</h1>
+</header>
+<main class="main-container">
+    <section class="validation-success">
+        <h2 id="val-msg">¡Gracias por registrarte!</h2>
+        <p class = "descripcion">
+            Muchas gracias por registrarte en nuestra pagina {{ session["user"] }}. Si quieres,
+            puedes crear un nuevo avistamiento, o volver a la pagina de inicio.
+        </p>
+    </section>
+
+    <form method="POST" action="{{ url_for('menu') }}">
+        <button class="submit-btn" type="submit" name="accion" value="avistamiento">
+            Registrar un avistamiento
+        </button>
+        <button class="submit-btn" type="submit" name="accion" value="inicio">
+            Volver al inicio
+        </button>
+    </form>
+</main>
+{% endblock %}
+{% block javascript %}
+{% endblock %}
+

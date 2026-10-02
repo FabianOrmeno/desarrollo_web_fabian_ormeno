@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% block title %} Información de la pagina {% endblock %}
+{% block css %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static', filename='css/main.css')}}"
+/>
+{% endblock %}
+{% block content %}
+<header>
+    <h1>INFORMACIÓN DE LA PAGINA</h1>
+</header>
+<main class="main-container">
+    <section id="posts">
+        <h2 id="posts-title">Filtrado de avistamientos</h2>
+        <form name="filterForm" method="get" action="{{ url_for('data') }}">
+            <label for="filter-species">Especie de ave</label>
+            <input type="text" name="filter-species" id="filter-species" placeholder="Ej: Aguilucho" value="{{ filter_species }}">
+            <br>
+            <label for="select-order">Ordenado por</label>
+            <select name="select-order" id="select-order">
+                <option value="">Seleccione</option>
+                <option value="datetime" {% if order == "datetime" %}selected{% endif %}>
+                    Fecha y hora
+                </option>
+                <option value="comuna" {% if order == "comuna" %}selected{% endif %}>
+                    Comuna
+                </option>
+            </select>
+            <br>
+            <button id="filter-btn" type="submit">Filtrar</button>
+        </form>
+        <section id="post-list">
+            <h2 id="posts-list">Listado de avistamientos</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Tipo de ave</th>
+                        <th>Avistado por</th>
+                        <th>Región</th>
+                        <th>Comuna</th>
+                        <th>Fecha</th>
+                        <th>Detalle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for post in sightings %}
+                        <tr>
+                            <td>{{ post["nombre"] }}</td>
+                            <td>{{ post["tipo"] }}</td>
+                            <td>{{ post["voluntario"] }}</td>
+                            <td>{{ post["region"] }}</td>
+                            <td>{{ post["comuna"] }}</td>
+                            <td>{{ post["fecha"] }}</td>
+                            <td>
+                                <a href="{{ url_for('sighting_detail', sighting_id=post['id']) }}">
+                                    Ver detalle
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+        <div class="pagination">
+            {% if page > 1 %}
+                <a href="{{ url_for('data', page=page-1, **{'filter-species': filter_species, 'select-order': order}) }}">
+                    Anterior
+                </a>
+            {% endif %}
+            {% for number in range(1, total_pages + 1) %}
+                {% if number == page %}
+                    {{ number }}
+                {% else %}
+                    <a href="{{ url_for('data', page=number, **{'filter-species': filter_species, 'select-order': order}) }}">
+                        {{ number }}
+                    </a>
+                {% endif %}
+            {% endfor %}
+            {% if page < total_pages %}
+                <a href="{{ url_for('data', page=page+1, **{'filter-species': filter_species, 'select-order': order}) }}">
+                    Siguiente
+                </a>
+            {% endif %}
+        </div>
+    </section>
+    <section id="statistics">
+        <h2>Estadísticas</h2>
+
+        <p>Usuarios registrados: <strong id="total-users">0</strong></p>
+
+        <p>Total de avistamientos: <strong id="total-posts">0</strong></p>
+
+        <h3>Avistamientos por región</h3>
+        <canvas id="region-chart" width="600"></canvas>
+
+        <h3>Avistamientos por tipo de ave</h3>
+        <canvas id="type-chart" width="600"></canvas>
+
+        <h3>Avistamientos por usuarios</h3>
+        <canvas id="user-chart" width="600"></canvas>
+    </section>
+</main>
+{% endblock %}
+{% block javascript %}
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% endblock %}
+

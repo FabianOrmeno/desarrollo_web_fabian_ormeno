@@ -105,9 +105,7 @@ const validateForm = () => {
     validationMessageElem.innerText = "Los siguientes campos son inválidos:";
 
     // aplicar estilos de error
-    validationBox.style.backgroundColor = "#ffdddd";
-    validationBox.style.borderLeftColor = "#f44336";
-
+    validationBox.class = "validation-error"
     // hacer visible el mensaje de validación
     validationBox.hidden = false;
   } else {
@@ -119,6 +117,7 @@ const validateForm = () => {
     validationListElem.textContent = "";
 
     // aplicar estilos de éxito
+    validationBox.class = "validation-success"
     validationBox.style.backgroundColor = "#ddffdd";
     validationBox.style.borderLeftColor = "#4CAF50";
 
@@ -127,10 +126,7 @@ const validateForm = () => {
     submitButton.innerText = "Enviar";
     submitButton.style.marginRight = "10px";
     submitButton.addEventListener("click", () => {
-      localStorage.setItem("Nombre", name);
-      window.location.href = "../html/main.html"
-      //myForm.submit();
-      // no tenemos un backend al cual enviarle los datos
+      myForm.submit();
     });
 
     let backButton = document.createElement("button");

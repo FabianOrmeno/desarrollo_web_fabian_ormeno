@@ -6,7 +6,7 @@ let posts = [{
     "comuna": "Santiago",
     "location": "Parque O'higgins",
     "datetime": "2026-09-01T20:33",
-    "files": ["../img/pato.jpeg"]
+    "files": ["../uploads/pato.jpeg"]
   },{"type": "Anatidae",
     "species": "Ganzo",
     "name": "Fabián Ormeño",
@@ -14,8 +14,9 @@ let posts = [{
     "comuna": "Santiago",
     "location": "Parque O'higgins",
     "datetime": "2026-09-05T20:33",
-    "files": ["../img/ganso.jpeg"]
+    "files": ["../uploads/ganso.jpeg"]
   }];
+/* 
 let filteredPosts = posts;
 let currentPage = 1;
 const postsPerPage = 2;
@@ -79,7 +80,7 @@ const validateForm = () => {
   // obtener elementos del DOM usando el nombre del formulario.
   let myForm = document.forms["myForm"];
   let type = myForm["type"].value;
-  let species = myForm["species"].value;
+  let species_id = myForm["species_id"].value;
   let region = myForm["select-region"].value;
   let comuna = myForm["select-comuna"].value;
   let location = myForm["location"].value;
@@ -99,7 +100,7 @@ const validateForm = () => {
   if (!validateText(type)) {
     setInvalidInput("Tipo de ave");
   }
-  if (!validateText(species)) {
+  if (!validateSelect(species_id)) {
     setInvalidInput("Nombre de la especie");
   }
   if (!validateSelect(region)) {
@@ -140,36 +141,10 @@ const validateForm = () => {
 
     // hacer visible el mensaje de validación
     validationBox.hidden = false;
+    console.log("falle")
   } else {
-    posts.push({
-      type: type,
-      species: species,
-      name: localStorage.getItem("Nombre"),
-      region: region,
-      comuna: comuna,
-      location: location,
-      datetime: datetime,
-      files: Array.from(files)
-    });
-
-    console.log({
-      type: type,
-      species: species,
-      name: localStorage.getItem("Nombre"),
-      region: region,
-      comuna: comuna,
-      location: location,
-      datetime: datetime,
-      files: Array.from(files)
-    });
-
-    myForm.reset();
-    validationBox.hidden = true;
-    filteredPosts = posts;
-    currentPage = 1;
-    showPosts();
-
-    showInfo();
+    console.log("Lo logre")
+    myForm.submit();
   }
 };
 
@@ -274,6 +249,7 @@ const filterForm = () => {
   showPosts();
 
 }
+*/
 
 const createRegionChart = () => {
   let canvas = document.getElementById("region-chart");
@@ -454,7 +430,7 @@ const showInfo = () => {
   let totalUsers = document.getElementById("total-users");
   totalUsers.innerHTML = 3;
 }
-
+/*
 let submitBtn = document.getElementById("submit-btn");
 submitBtn.addEventListener("click", validateForm);
 let filterBtn = document.getElementById("filter-btn");
@@ -463,3 +439,4 @@ window.addEventListener("load", () => {
   showInfo();
   showPosts();
 });
+*/

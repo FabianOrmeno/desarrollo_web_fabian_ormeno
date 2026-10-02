@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %} Avistamiento detallado {% endblock %}
+{% block css %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static', filename='css/main.css')}}"
+/>
+{% endblock %}
+{% block content %}
+<h1>DETALLE DE AVISTAMIENTO</h1>
+<main class="main-container">
+    <article>
+        <h2>{{ sighting["nombre"] }}</h2>
+        <p><strong>Tipo de ave:</strong>{{ sighting["tipo"] }}</p>
+        <p><strong>Avistado por:</strong>{{ sighting["voluntario"] }}</p>
+        <p><strong>Región:</strong>{{ sighting["region"] }}</p>
+        <p><strong>Comuna:</strong>{{ sighting["comuna"] }}</p>
+        <p><strong>Lugar:</strong>{{ sighting["lugar"] }}</p>
+        <p><strong>Fecha:</strong>{{ sighting["fecha"] }}</p>
+        <h3>Archivos</h3>
+        {% for registro in sighting["registros"] %}
+            {% if registro.endswith('.jpg')
+            or registro.endswith('.jpeg')
+            or registro.endswith('.png')
+            or registro.endswith('.gif') %}
+                <img
+                    src="{{ url_for('static', filename='uploads/' + registro) }}"
+                    width="300"
+                    alt="Imagen del avistamiento"
+                >
+            {% elif registro.endswith('.mp4')
+            or registro.endswith('.webm')
+            or registro.endswith('.ogg') %}
+                <video
+                    src="{{ url_for('static', filename='uploads/' + registro) }}"
+                    width="400"
+                    alt="video del avistamiento"
+                    controls
+                ></video>
+            {% endif %}
+        {% endfor %}
+    </article>
+    <br>
+    <a href="{{ url_for('data') }}">Volver al listado</a>
+</main>
+{% endblock %}
