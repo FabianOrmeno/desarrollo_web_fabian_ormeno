@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, Integer, BigInteger, String, ForeignKey, DateTime
+from sqlalchemy import create_engine, Column, Integer, BigInteger, String, ForeignKey, DateTime, func
 from sqlalchemy.orm import sessionmaker, declarative_base, relationship
 from datetime import datetime
 from werkzeug.utils import secure_filename
@@ -76,6 +76,7 @@ class Avistamiento(Base):
     ave = relationship("Ave")
     comuna = relationship("Comuna")
     registros = relationship("Registro", back_populates="avistamiento")
+    comentarios = relationship("Comentario", back_populates="avistamiento")
 
 class Registro(Base):
     __tablename__ = 'registro'
@@ -86,6 +87,17 @@ class Registro(Base):
     avistamiento_id = Column(BigInteger, ForeignKey('avistamiento.id'), nullable=False)
 
     avistamiento = relationship("Avistamiento", back_populates="registros")
+
+class Comentario(Base):
+    __tablename__ = 'comentario'
+
+    id = Column(BigInteger, primary_key=True, autoincrement=True)
+    nombre = Column(String(80), nullable=False)
+    texto = Column(String(300), nullable=False)
+    fecha = Column(DateTime, nullable=False)
+    avistamiento_id = Column(BigInteger, ForeignKey('avistamiento.id'), nullable=False)
+
+    avistamiento = relationship("Avistamiento", back_populates="comentarios")
 
 # --- Database Functions ---
 
@@ -208,3 +220,117 @@ def get_all_sightings():
     sightings = session.query(Avistamiento).all()
 
     return session, sightings
+
+def sightings_per_day():
+    session = SessionLocal()
+    try:
+        sightings = (
+            session.query(
+                func.date(Avistamiento.fecha_hora).label("fecha"),
+                func.count(Avistamiento.id).label("cantidad")
+            )
+            .group_by(func.date(Avistamiento.fecha_hora))
+            .order_by(func.date(Avistamiento.fecha_hora))
+            .all()
+        )
+
+        sightings_data = {}
+
+        for fecha, cantidad in sightings:
+            sightings_data[fecha.isoformat()] = cantidad
+
+        return sightings_data
+    finally:
+        session.close()
+
+def sightings_per_bird():
+    session = SessionLocal()
+    try:
+        sightings = (
+            session.query(
+                Ave.id.label("ave_id"),
+                Ave.nombre.label("ave_nombre"),
+                func.count(Avistamiento.id).label("cantidad")
+            )
+            .join(Ave, Avistamiento.ave_id == Ave.id)
+            .group_by(Ave.id, Ave.nombre)
+            .order_by(func.count(Avistamiento.id).desc())
+            .all()
+        )
+
+        sightings_data = {}
+
+        for _, nombre, cantidad in sightings:
+            sightings_data[nombre] = cantidad
+
+        return sightings_data
+    finally:
+        session.close()
+
+def users_per_comuna():
+    session = SessionLocal()
+    try:
+        users = (
+            session.query(
+                Comuna.id.label("comuna_id"),
+                Comuna.nombre.label("comuna_nombre"),
+                Region.nombre.label("region_nombre"),
+                func.count(Voluntario.id).label("cantidad")
+            )
+            .join(Comuna, Voluntario.comuna_id == Comuna.id)
+            .join(Region, Comuna.region_id == Region.id)
+            .group_by(
+                Comuna.id,
+                Comuna.nombre,
+                Region.nombre
+            )
+            .order_by(func.count(Voluntario.id).desc())
+            .all()
+        )
+
+        users_data = {}
+
+        for _, comuna, region, cantidad in users:
+            users_data[comuna + " - " + region] = cantidad
+
+        return users_data
+    finally:
+        session.close()
+
+def create_comment(username, comment, sighting_id):
+    session = SessionLocal()
+    try:
+        new_comment = Comentario(
+            nombre=username,
+            texto=comment,
+            fecha=datetime.now(),
+            avistamiento_id=sighting_id
+        )
+        session.add(new_comment)
+        session.commit()
+    except Exception:
+        session.rollback()
+        raise
+    finally:
+        session.close()
+
+
+def get_comments_by_sighting_id(sighting_id):
+    session = SessionLocal()
+    try:
+        comments = (
+            session.query(Comentario)
+            .filter_by(avistamiento_id=sighting_id)
+            .order_by(Comentario.fecha.desc())
+            .all()
+        )
+        return [
+            {
+                "nombre": c.nombre,
+                "texto": c.texto,
+                "fecha": c.fecha.isoformat() if c.fecha else None
+            }
+            for c in comments
+        ]
+    finally:
+        session.close()

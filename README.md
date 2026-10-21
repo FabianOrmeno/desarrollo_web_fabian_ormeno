@@ -1,38 +1,49 @@
-# CC5002 - Tarea 2: Avistamiento de Aves
+# CC5002 - Tarea 3: Avistamiento de Aves
 Nombre: Fabián Andrés Ormeño Araya
 
 Prototipo de aplicación web para el registro de avistamiento de aves. Esta tarea se probó a través de Google Chrome y Microsoft Edge.
 
 ## Archivos
+
+Los archivos maracados con un * fueron los modificados/agregados para la tarea 3
 ```
 proyecto/
 ├── database/
 │   ├── aves.sql
-│   ├── db.py
+│   ├── db.py *
 │   ├── region-comuna.sql
-│   └── tarea2.sql
+│   └── tarea2.sql *
 ├── static/
 │   ├── css/
 │   │   ├── form.css
+│   │   ├── graph.css *
 │   │   └── main.css
 │   ├── js/
-│   │   ├── main.js
+│   │   ├── comment.js *
+│   │   ├── graph.js *
 │   │   ├── register.js
 │   │   ├── select.js
 │   │   └── sighting.js
-│   └── uploads/
+│   ├── uploads/
+│   ├── bootstrap.min.js *
+│   ├── jquery-3.5.1.min.js *
+│   ├── jquery.flot.categories.js *
+│   ├── jquery.flot.js *
+│   ├── jquery.flot.navigate.js *
+│   ├── jquery.flot.pie.js *
+│   └── jquery.flot.time.js *
 ├── templates/
 │   ├── base.html
-│   ├── data.html
+│   ├── data.html *
 │   ├── home.html
 │   ├── register.html
 │   ├── registered.html
-│   ├── sighting-detail.html
+│   ├── sighting-detail.html *
 │   └── sighting.html
 ├── utils/
 │   └── validation.py
-├── app.py
-├── README.md
+├── app.py *
+├── README.md *
 └── requirements.txt
 ```
 
@@ -88,6 +99,7 @@ A través del prototipo se puede:
 - Ordenar los avistamientos por fecha, desde el más reciente al más antiguo, o por comuna, en orden alfabético.
 - Revisar los resultados a través de la paginación, en la que se muestran 2 avistamientos por página.
 - Visualizar indicadores y métricas mediante gráficos.
+- Dejar un comentario en un avistamiento registrado.
 
 ## Decisiones y consideraciones para la corrección
 
@@ -98,7 +110,8 @@ A través del prototipo se puede:
 - El filtro de avistamientos permite buscar coincidencias dentro del tipo de ave ingresado.
 - Para los archivos CSS, HTML, JavaScript y Python utilicé como base el código entregado por el auxiliar. 
 - Se separó el formulario de crear un avistamiento del listado y se modificó el listado de avistamientos para aplicar el feedback dado de la tarea 1.
-- Al final de la página de /data se dejó el apartado relacionado a las estadísticas (indicadores y métricas) sin funcionalidad.
+- Los gráficos vistos en la página /data fueron realizados a traves de Flot https://www.flotcharts.org/.
+- Para las llamadas asíncronas se decicio utilizar el metodo de fetch.
 - Se modificó la estructura de tarea2.sql para agregar un campo de contraseña a la tabla de voluntario y una referencia a comuna en la tabla de avistamiento, para adaptarse a los formularios creados durante la tarea 1.
 - Los archivos subidos por los formularios se almacenan en static/uploads/
 - Para validar los HTML se utilizó la página https://validator.w3.org/nu/#textarea al copiar dichos HTML desde la fuente con las herramientas para desarrolladores de Chrome, y los CSS con http://jigsaw.w3.org/css-validator/.

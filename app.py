@@ -62,7 +62,7 @@ def register():
 
         return render_template("register.html", regiones=regiones)
 
-@app.route("/sighting", methods=["GET"])
+@app.route("/sighting", methods=["GET", "POST"])
 def sighting():
     if request.method == "POST":
         error = ""
@@ -317,6 +317,60 @@ def post_sighting():
 
     return render_template("sighting.html", error=error, regiones=regiones, especies=especies)
 
+@app.route("/graph_data", methods=["GET"])
+def graph_data():
+    if request.method == "GET":
+        sightings_per_day = db.sightings_per_day()
+        sightings_per_bird = db.sightings_per_bird()
+        users_per_comuna = db.users_per_comuna()
+
+        return jsonify(
+            {
+                "sightings_per_day": sightings_per_day,
+                "sightings_per_bird": sightings_per_bird,
+                "users_per_comuna": users_per_comuna
+            }
+        )
+
+@app.route("/post_comment", methods=["POST"])
+def post_comment():
+    if request.method == "POST":
+        data = request.get_json()
+        username = data.get("username")
+        comment = data.get("comment")
+        sighting_id = data.get("sighting_id")
+        error = []
+
+        if(not username or not isinstance(username, str) or len(username) < 3 or len(username)>50):
+            error.append("Nombre invalido")
+        if(not comment or not isinstance(comment, str) or len(comment) < 5 or len(comment)>300):
+            error.append("Comentario invalido")
+        if(not sighting_id or not isinstance(sighting_id, int)):
+            error.append("Id de avistamiento invalido")
+
+        if len(error) != 0:
+            return jsonify({"status": "error", "data": error}), 400
+        
+        db.create_comment(username,comment,sighting_id)
+
+        return jsonify({"status": "ok", "data": []})
+
+@app.route("/get_comments", methods=["GET"])
+def get_comments():
+    sighting_id = request.args.get("sighting_id", type=int)
+
+    if sighting_id is None or sighting_id <= 0:
+        return jsonify({
+            "status": "error",
+            "error": "ID de avistamiento inválido"
+        }), 400
+
+    comments_data = db.get_comments_by_sighting_id(sighting_id)
+
+    return jsonify({
+        "status": "ok",
+        "data": comments_data
+    })
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -41,7 +41,27 @@
             {% endif %}
         {% endfor %}
     </article>
+    <section>
+        <h3>Comentarios</h3>
+        <section id="val-box" hidden>
+            <h4 id="val-msg">
+                Mensaje de validación</h4>
+            <ul id="val-list"></ul>
+        </section>
+        <form name="myForm" method="post" data-sighting-id="{{ sighting.id }}">
+            <label for="username">Nombre</label>
+            <input type="text" name="username" id="username" placeholder="3 a 50 caracteres" required><br>
+
+            <label for="comment">Comentario</label>
+            <textarea name="comment" id="comment" cols="40" rows="3" placeholder="5 a 300 caracteres" required></textarea>
+            <button id="submit-btn" class="submit-btn" type="button">Enviar comentario</button>
+        </form>
+        <div id="comment-list" hidden></div>
+    </section>
     <br>
     <a href="{{ url_for('data') }}">Volver al listado</a>
 </main>
+{% endblock %}
+{% block javascript %}
+<script src="{{ url_for('static', filename='js/comment.js') }}"></script>
 {% endblock %}
