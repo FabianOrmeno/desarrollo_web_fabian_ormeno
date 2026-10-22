@@ -335,23 +335,29 @@ def graph_data():
 @app.route("/post_comment", methods=["POST"])
 def post_comment():
     if request.method == "POST":
-        data = request.get_json()
+        data = request.get_json(silent=True)
+        if not isinstance(data, dict):
+            return jsonify({"status": "error", "error": ["Datos JSON inválidos"]}), 400
         username = data.get("username")
         comment = data.get("comment")
         sighting_id = data.get("sighting_id")
         error = []
 
-        if(not username or not isinstance(username, str) or len(username) < 3 or len(username)>50):
+        if(not username or not isinstance(username, str) or len(username.strip()) < 3 or len(username.strip())>50):
             error.append("Nombre invalido")
-        if(not comment or not isinstance(comment, str) or len(comment) < 5 or len(comment)>300):
+        if(not comment or not isinstance(comment, str) or len(comment.strip()) < 5 or len(comment.strip())>300):
             error.append("Comentario invalido")
-        if(not sighting_id or not isinstance(sighting_id, int)):
-            error.append("Id de avistamiento invalido")
+        if (isinstance(sighting_id, bool) or not isinstance(sighting_id, int) or sighting_id <= 0):
+            error.append("ID de avistamiento invalido")
+        else:
+            sighting = db.get_sighting_by_id(sighting_id)  
+            if sighting is None:
+                error.append("ID de avistamiento invalido")
 
         if len(error) != 0:
             return jsonify({"status": "error", "data": error}), 400
         
-        db.create_comment(username,comment,sighting_id)
+        db.create_comment(username.strip(),comment.strip(),sighting_id)
 
         return jsonify({"status": "ok", "data": []})
 
@@ -364,6 +370,16 @@ def get_comments():
             "status": "error",
             "error": "ID de avistamiento inválido"
         }), 400
+
+
+    sighting = db.get_sighting_by_id(sighting_id)
+
+    if sighting is None:
+        return jsonify({
+                "status": "error",
+                "error": "ID de avistamiento inválido"
+            }), 400
+
 
     comments_data = db.get_comments_by_sighting_id(sighting_id)
 

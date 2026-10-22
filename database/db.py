@@ -334,3 +334,11 @@ def get_comments_by_sighting_id(sighting_id):
         ]
     finally:
         session.close()
+
+def get_sighting_by_id(id):
+    session = SessionLocal()
+    try:
+        sighting = session.query(Avistamiento).filter_by(id=id).first()
+        return sighting
+    finally:
+        session.close()
