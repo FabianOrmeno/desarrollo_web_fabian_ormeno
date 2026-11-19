@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>Evaluación de avistamientos</title>
+        <link
+            rel="stylesheet"
+            type="text/css"
+            th:href="@{/css/main.css}"
+        />
+    </head>
+    <body>
+        <header>
+            <h1>Evaluación de avistamientos</h1>
+        </header>
+        <main class="main-container">
+            <section id="posts">
+                <h2 id="posts-title">Filtrado de avistamientos</h2>
+                <form name="filterForm" method="get">
+                    <label id="filter-form">Contenga texto</label>
+                    <input type="text" name="filter-text" id="filter-text" placeholder="Ej: Aguilucho">
+                </form>
+                <section id="post-list">
+                    <h2 id="posts-list">Listado de avistamientos</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Avistado por</th>
+                                <th>Comuna</th>
+                                <th>Fecha</th>
+                                <th>Nota</th>
+                                <th>Evaluar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sightings-list">
+                            <tr th:each="post : ${sightings}"
+                                th:insert="~{fragments/sighting_box :: sighting-box(${post})}">
+                            </tr>
+                        </tbody>
+                    </table>
+                    <section id="val-box" hidden>
+                        <h2 id="val-msg">Mensaje de validación</h2>
+                        <p id="val-list">El texto ingresado no coincide con ningún avistamiento</p>
+                    </section>
+                </section>
+                <script th:src="@{/js/filter.js}"></script>
+            </section>
+        </main>
+    </body>
+</html>

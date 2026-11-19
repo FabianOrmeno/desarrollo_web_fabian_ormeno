@@ -1,6 +1,6 @@
 import re
 import filetype
-from datetime import datetime
+from datetime import datetime, timezone
 
 def validate_name(name):
     if not name:
@@ -111,17 +111,22 @@ def validate_location(location):
 
     return bool(re.fullmatch(pattern, location))
 
-
 def validate_datetime(datetime_string):
     if not datetime_string:
         return False
 
     try:
         selected_datetime = datetime.fromisoformat(datetime_string)
-    except ValueError:
-        return False
 
-    now = datetime.now()
-    min_date = datetime(2000, 1, 1, 0, 0)
+        if selected_datetime.tzinfo is not None:
+            selected_datetime = selected_datetime.astimezone(timezone.utc)
+            now = datetime.now(timezone.utc)
+            min_date = datetime(2000, 1, 1, tzinfo=timezone.utc)
+        else:
+            now = datetime.now()
+            min_date = datetime(2000, 1, 1)
+
+    except (ValueError, TypeError):
+        return False
 
     return min_date <= selected_datetime <= now

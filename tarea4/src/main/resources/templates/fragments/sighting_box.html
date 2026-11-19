@@ -1,0 +1,16 @@
+<th:block th:fragment="sighting-box(post)">
+    <td th:text="${post.nombre.key}"></td>
+    <td th:text="${post.voluntario.key}"></td>
+    <td th:text="${post.comuna.key}"></td>
+    <td th:text="${post.fecha.key}"></td>
+    <td th:text="${post.promedio.key}"></td>
+    <td>
+        <form class="evaluate-form">
+            <input type="hidden" class="id" name="id" th:value="${post.id.key}">
+
+            <input type="number" class="nota" min="1" max="7" step="1" name="nota" placeholder="Ej: 6">
+
+            <button type="submit">Evaluar</button>
+        </form>
+    </td>
+</th:block>

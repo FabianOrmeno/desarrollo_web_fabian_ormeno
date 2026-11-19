@@ -5,6 +5,7 @@ from werkzeug.utils import secure_filename
 import hashlib
 import filetype
 import os
+import random
 
 DB_NAME = "tarea2"
 DB_USERNAME = "cc5002"
@@ -194,7 +195,7 @@ def create_sighting(volunteer_id, bird_type, species_id, comuna_id, location, da
         os.makedirs(UPLOAD_FOLDER, exist_ok=True)
         for file in files:
             _filename = hashlib.sha256(
-                secure_filename(file.filename) # nombre del archivo
+                secure_filename(file.filename+str(date)+str(random.randint(0, 999999))) # nombre del archivo
                 .encode("utf-8") # encodear a bytes
                 ).hexdigest()
             _extension = filetype.guess(file).extension

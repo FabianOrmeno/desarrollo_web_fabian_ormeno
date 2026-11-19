@@ -31,7 +31,8 @@
                 >
             {% elif registro.endswith('.mp4')
             or registro.endswith('.webm')
-            or registro.endswith('.ogg') %}
+            or registro.endswith('.ogg')
+            or registro.endswith('.mov') %}
                 <video
                     src="{{ url_for('static', filename='uploads/' + registro) }}"
                     width="400"

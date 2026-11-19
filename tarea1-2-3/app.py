@@ -27,11 +27,20 @@ def register():
         region_id = request.form.get("region_id")
         comuna_id = request.form.get("comuna_id")
         error = ""
+
         if not v.validate_name(username):
             error+="El nombre debe tener entre 3 y 100 caracteres y contener solo letras y espacios.\n"
+        else:
+            user = db.get_volunteer_by_username(username)
+            if user:
+                error+="El nombre de usuario ya esta siendo utilizado por otro usuario. \n"
 
         if not v.validate_email(email):
             error+="El email no tiene un formato válido.\n"
+        else:
+            user = db.get_user_by_email(email)
+            if user:
+                error+="Ya existe un usuario registrado con este email.\n"
 
         if not v.validate_phone_number(phone):
             error+="El teléfono debe tener 9 dígitos y comenzar con 9.\n"
@@ -256,6 +265,9 @@ def menu():
 
     elif accion == "ver_avistamientos":
         return redirect(url_for("data"))
+
+    elif accion == "evaluar_avistamientos":
+        return redirect("http://127.0.0.1:8080/")
 
     return redirect(url_for("index"))
 
