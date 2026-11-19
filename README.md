@@ -5,7 +5,7 @@ Prototipo de aplicación web para el registro de avistamiento de aves. Esta tare
 
 ## Archivos
 
-Los archivos maracados con un * fueron los modificados/agregados para la tarea 4
+Los archivos marcados con un * fueron los modificados/agregados para la tarea 4
 ```
 proyecto/
 ├── tarea1-2-3/
@@ -81,9 +81,9 @@ proyecto/
 ## Requisitos
 Para ejecutar el proyecto se necesita:
 
-Python 3. (en especifo se utilizó Python 3.14.7)
+Python 3. (en específico se utilizó Python 3.14.7)
 
-Jdk 27
+JDK 27
 
 MySQL.
 
@@ -91,7 +91,7 @@ Las dependencias indicadas en requirements.txt.
 
 Una base de datos configurada con las credenciales indicadas en el enunciado de la tarea.
 
-Crear /static/uploads si es que no esta definida.
+Crear /static/uploads si es que no está definida.
 ## Ejecución
 
 Para ejecutar el prototipo, usted debe
@@ -111,7 +111,7 @@ pip install -r requirements.txt
 - Iniciar el esquema y las tablas utilizando tarea2.sql
 - Poblar la tabla de las aves utilizando aves.sql
 - Poblar las tablas de región y comunas utilizando region-comuna.sql
-(Estos tres pasos los realicé con la extension de Database Client de MySQL)
+(Estos tres pasos los realicé con la extensión de Database Client de MySQL)
 - Iniciar la página web con:
 ```
 python app.py
@@ -126,6 +126,7 @@ python app.py
 
 - Flask se ejecuta en el puerto 5000.
 - Spring Boot se ejecuta en el puerto 8080.
+- Para disponer de todas las funcionalidades se necesita ejecutar las dos aplicaciones a la vez.
 
 ## Direcciones principales
 http://127.0.0.1:5000/ : página de inicio
@@ -158,22 +159,24 @@ A través del prototipo se puede:
 - El filtro de avistamientos permite buscar coincidencias dentro del tipo de ave ingresado.
 - Para los archivos CSS, HTML, JavaScript y Python utilicé como base el código entregado por el auxiliar. 
 - Se separó el formulario de crear un avistamiento del listado y se modificó el listado de avistamientos para aplicar el feedback dado de la tarea 1.
-- Los gráficos vistos en la página /data fueron realizados a traves de Flot https://www.flotcharts.org/.
-- Para las llamadas asíncronas se decicio utilizar el metodo de fetch.
+- Los gráficos vistos en la página /data fueron realizados a través de Flot https://www.flotcharts.org/.
+- Para las llamadas asíncronas se decidió utilizar el método de fetch.
 - Se modificó la estructura de tarea2.sql para agregar un campo de contraseña a la tabla de voluntario y una referencia a comuna en la tabla de avistamiento, para adaptarse a los formularios creados durante la tarea 1.
 - Los archivos subidos por los formularios se almacenan en static/uploads/
 - Para validar los HTML se utilizó la página https://validator.w3.org/nu/#textarea al copiar dichos HTML desde la fuente con las herramientas para desarrolladores de Chrome, y los CSS con http://jigsaw.w3.org/css-validator/.
 
 ### Feedback tarea 2
 - Ahora no se puede registrar un voluntario si ya existe uno con el mismo nombre de usuario o con el mismo correo.
-- Se arreglo la validación de la fecha al tomar en cuenta la zona horaria.
+- Se arregló la validación de la fecha al tomar en cuenta la zona horaria.
 - Para evitar que archivos diferentes con el mismo nombre se sobrescriban, se genera un nombre mediante un hash SHA-256, utilizando el nombre original del archivo, la fecha del avistamiento y un número aleatorio.
 - Se puede abrir el detalle de un avistamiento al hacer click en la fila.
-- Se agrego soporte de archivos .mov en el detalle del avistamiento.
+- Se agregó soporte de archivos .mov en el detalle del avistamiento.
 
 ### Tarea 4
-- Se añadio a la página de inicio un botón para redireccionar a la página de evaluación.
-- Al filtrar por texto se compara con el nombre de la ave, con el nombre del voluntario, con la comuna del avistamiento y con la fecha.
+- Se añadió a la página de inicio un botón para redireccionar a la página de evaluación.
+- Para las llamadas asíncronas se decidió utilizar el método de fetch.
+- Al filtrar por texto se compara con el nombre del ave, con el nombre del voluntario, con la comuna del avistamiento y con la fecha.
 - Al evaluar un avistamiento solo se le puede dar una nota "entera" (1, 2, 3, 4, 5, 6 o 7)
 - El promedio de las notas se aproxima a un decimal.
 - Para validar los HTML se utilizó la página https://validator.w3.org/nu/#textarea al copiar dichos HTML desde la fuente con las herramientas para desarrolladores de Chrome, y los CSS con http://jigsaw.w3.org/css-validator/.
+- En la parte del arból de archivos de la tarea 4 solo se indicó los archivos modificados.
